@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  goodm_mongo:
+    image: mongo:6
+    container_name: goodm_mongo
+    ports: 
+      - '27017:27017'
+  goodm_mongo_express:
+    image: mongo-express:latest
+    container_name: goodm_mongo_express
+    ports:
+      - '8081:8081'
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=goodm_mongo
+       -ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - goodm_mongo
