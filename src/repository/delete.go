@@ -1,9 +1,20 @@
-package query
+package repository
 
 import (
 	"github.com/angrypufferfish/goodm/src/database"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+func Delete[A interface{}](id primitive.ObjectID) (*int64, error) {
+	db := database.GetGoodmDatabase()
+	objectID, err := objectIdConvert(id)
+
+	if err != nil {
+		return nil, err
+	}
+	return deleteOne[A](db, map[string]primitive.ObjectID{"_id": *objectID})
+}
 
 func DeleteOne[A interface{}](filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	db := database.GetGoodmDatabase()

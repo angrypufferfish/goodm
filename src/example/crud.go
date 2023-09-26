@@ -1,7 +1,7 @@
 package example
 
 import (
-	"github.com/angrypufferfish/goodm/src/query"
+	"github.com/angrypufferfish/goodm/src/repository"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -15,15 +15,15 @@ func CreateUser() {
 		FirstName: "Dario",
 		LastName:  "Treglia",
 	}
-
-	query.Insert[*User](user)
+	user = user.Save()
+	user.Remove()
 }
 
 func ListAll() ([]User, error) {
 
 	var filter = map[string]string{}
 
-	r, err := query.Find[User](filter)
+	r, err := repository.Find[User](filter)
 
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func ListUserByFirstName(firstName string) ([]UserID, error) {
 
 	var filter = map[string]string{"firstName": firstName}
 
-	r, err := query.FindWithSerializer[User, UserID](filter)
+	r, err := repository.FindWithSerializer[User, UserID](filter)
 
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func ListUserByFirstName(firstName string) ([]UserID, error) {
 func DeleteUserByFirstName(firstName string) (*int64, error) {
 	var filter = map[string]string{"firstName": firstName}
 
-	deletedCount, err := query.DeleteOne[*User](filter)
+	deletedCount, err := repository.DeleteOne[*User](filter)
 
 	if err != nil {
 		return nil, err

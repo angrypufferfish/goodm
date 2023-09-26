@@ -2,7 +2,6 @@ package example
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/angrypufferfish/goodm/src/connection"
 )
@@ -21,12 +20,4 @@ func Run() {
 	client.UseDatabase("test", &ctx)
 
 	CreateUser()
-
-	users, _ := ListUserByFirstName("Dario")
-	fmt.Printf("%v", users)
-
-	//DeleteUserByFirstName("Dario")
-
-	users, _ = ListUserByFirstName("Dario")
-	fmt.Printf("%v", users)
 }

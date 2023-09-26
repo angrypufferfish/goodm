@@ -1,4 +1,4 @@
-package query
+package repository
 
 import (
 	"github.com/angrypufferfish/goodm/src/database"

@@ -1,11 +1,21 @@
-package query
+package repository
 
 import (
 	"github.com/angrypufferfish/goodm/src/database"
 	"github.com/angrypufferfish/goodm/src/serializer"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+func Get[A interface{}](id primitive.ObjectID) (*A, error) {
+	db := database.GetGoodmDatabase()
+	objectID, err := objectIdConvert(id)
+	if err != nil {
+		return nil, err
+	}
+	return findOne[A, A](db, map[string]primitive.ObjectID{"_id": *objectID})
+}
 
 func FindOne[A interface{}](filter any, opts ...*options.FindOneOptions) (*A, error) {
 	db := database.GetGoodmDatabase()
