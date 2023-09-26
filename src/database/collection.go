@@ -16,10 +16,10 @@ func getCollectionName[A interface{}]() (*string, error) {
 	var ok bool = false
 
 	if reflect.ValueOf(collection).Kind() == reflect.Ptr {
-		field, ok = reflect.TypeOf(collection).Elem().FieldByName("goodmCollection")
+		field, ok = reflect.TypeOf(collection).Elem().FieldByName("GoodmCollection")
 	} else {
 		var collectionPointer *A
-		field, ok = reflect.TypeOf(collectionPointer).Elem().FieldByName("goodmCollection")
+		field, ok = reflect.TypeOf(collectionPointer).Elem().FieldByName("GoodmCollection")
 	}
 
 	if ok != true {

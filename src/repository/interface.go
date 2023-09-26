@@ -7,16 +7,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Repository[A HasGoodmObjectID] struct{}
+type Repository[A any] struct{}
 
-type RepositoryServices[A HasGoodmObjectID] interface {
+type RepositoryServices[A any] interface {
 	Get(id primitive.ObjectID) (*A, error)
 	Find(filter any, opts ...*options.FindOptions) ([]A, error)
 	FindOne(filter any, opts ...*options.FindOneOptions) (*A, error)
 	FindOneWithDatabase(db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) ([]A, error)
 	FindWithDatabase(db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]A, error)
 
-	InsertSelf(u HasGoodmObjectID) (*A, error)
 	Insert(model interface{}) (*mongo.InsertOneResult, error)
 	InsertMany(models []interface{}) (*mongo.InsertManyResult, error)
 	InsertWithDatabase(db *database.GoodmDatabase, model interface{}) (*mongo.InsertOneResult, error)
@@ -47,11 +46,6 @@ func (repo *Repository[A]) FindOneWithDatabase(db *database.GoodmDatabase, filte
 
 func (repo *Repository[A]) FindWithDatabase(db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]A, error) {
 	return FindWithDatabase[A](db, filter, opts...)
-}
-
-func (repo *Repository[A]) InsertSelf(u HasGoodmObjectID) (A, error) {
-	var doc, err = InsertSelf[A, A](u)
-	return *doc, err
 }
 
 func (repo *Repository[A]) Insert(model interface{}) (*mongo.InsertOneResult, error) {

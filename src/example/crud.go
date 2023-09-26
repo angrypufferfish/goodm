@@ -11,12 +11,26 @@ type UserID struct {
 }
 
 func CreateUser() {
-	user := &User{
-		FirstName: "Dario",
-		LastName:  "Treglia",
+
+	user := repository.NewGoodmDoc[*User](
+		&User{
+			FirstName: "Mario",
+			LastName:  "Rossi",
+		},
+	)
+	user.Save()
+
+	/** OR **/
+
+	usr := &User{
+		FirstName: "Mario",
+		LastName:  "Rossi",
 	}
-	user = user.Save()
+	userInstance := usr.ToGoodmDoc(usr)
+	userInstance.Save()
+
 	user.Remove()
+	userInstance.Remove()
 }
 
 func ListAll() ([]User, error) {
