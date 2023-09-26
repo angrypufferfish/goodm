@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/angrypufferfish/goodm/src/exceptions"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -22,7 +23,7 @@ func getCollectionName[A interface{}]() (*string, error) {
 	}
 
 	if ok != true {
-		panic("goodmCollection field have to be defined on Document definition")
+		panic(exceptions.ErrCollectionNameNotDefined)
 	}
 	collectionName := strings.Split(field.Tag.Get("goodm"), ",")[0]
 

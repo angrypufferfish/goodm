@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 
+	"github.com/angrypufferfish/goodm/src/exceptions"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -24,7 +25,7 @@ func NewGoodmClient(client *mongo.Client) *GoodmClient {
 
 func GetGoodmDatabase() *GoodmDatabase {
 	if mongoDatabase == nil {
-		panic("You must have to call UseDatabase method before access this resource")
+		panic(exceptions.ErrDbNotInitialized)
 	}
 	return mongoDatabase
 }

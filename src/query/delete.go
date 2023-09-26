@@ -5,17 +5,26 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Delete[A interface{}](filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteOne[A interface{}](filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	db := database.GetGoodmDatabase()
-	return delete[A](db, filter, opts...)
+	return deleteOne[A](db, filter, opts...)
 }
 
-func DeleteWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteOneWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 
-	return delete[A](db, filter, opts...)
+	return deleteOne[A](db, filter, opts...)
 }
 
-func delete[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteMany[A interface{}](filter any, opts ...*options.DeleteOptions) (*int64, error) {
+	db := database.GetGoodmDatabase()
+	return deleteMany[A](db, filter, opts...)
+}
+
+func DeleteManyWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+	return deleteMany[A](db, filter, opts...)
+}
+
+func deleteOne[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -24,6 +33,22 @@ func delete[A interface{}](db *database.GoodmDatabase, filter any, opts ...*opti
 	}
 
 	count, err := collection.DeleteOne(*db.Context, filter, opts...)
+
+	if err != nil {
+		return nil, err
+	}
+	return &count.DeletedCount, nil
+}
+
+func deleteMany[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+
+	collection, err := database.GetCollection[A](db)
+
+	if err != nil {
+		return nil, err
+	}
+
+	count, err := collection.DeleteMany(*db.Context, filter, opts...)
 
 	if err != nil {
 		return nil, err
