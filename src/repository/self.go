@@ -33,7 +33,7 @@ func (u *GoodmCollection[A]) GetID() primitive.ObjectID {
 
 type Repo[A IDGetterSetter] struct {
 	Repository[A] `json:"-" bson:"-"`
-	Document      A `json:"-,inline" bson:"-, inline"`
+	Document      A `json:"-,inline" bson:"-,inline"`
 }
 
 func (r *Repo[A]) Save() (*A, error) {
