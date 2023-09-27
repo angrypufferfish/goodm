@@ -61,7 +61,13 @@ func find[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, 
 	if err = cursor.All(*db.Context, &results); err != nil {
 		return nil, err
 	}
-	return serializer.SerializeList[S](results), nil
+
+	seralizedList, err := serializer.SerializeList[S](results)
+
+	if err != nil {
+		return nil, err
+	}
+	return seralizedList, nil
 }
 
 func findOne[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {
@@ -81,7 +87,19 @@ func findOne[A interface{}, S interface{}](db *database.GoodmDatabase, filter an
 		return nil, err
 	}
 
-	var document S = serializer.Serialize[S](result)
+	seralizedDocument, err := serializer.Serialize[S](result)
 
-	return &document, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return &seralizedDocument, nil
+}
+
+func TestFindOnePrivate[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {
+	return findOne[A, S](db, filter, opts...)
+}
+
+func TestFindPrivate[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]S, error) {
+	return find[A, S](db, filter, opts...)
 }

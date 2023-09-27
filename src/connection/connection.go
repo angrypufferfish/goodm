@@ -39,6 +39,11 @@ func (odm *Goodm) connectWithMongoUri(uri string) (*database.GoodmClient, error)
 	return odm.client, err
 }
 
+func (odm *Goodm) ConnectMock(mtestClient *mongo.Client) *database.GoodmClient {
+	odm.client = database.NewGoodmClient(mtestClient)
+	return odm.client
+}
+
 func (odm *Goodm) Connect(uri string, timeout time.Duration) (*database.GoodmClient, error) {
 
 	cancel := odm.connectWithTimeoutContext(timeout)

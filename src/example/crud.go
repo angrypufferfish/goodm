@@ -18,6 +18,7 @@ func CreateUser() {
 			LastName:  "Rossi",
 		},
 	)
+	user.Document.FirstName = "Da"
 	user.Save()
 
 	/** OR **/
@@ -27,6 +28,8 @@ func CreateUser() {
 		LastName:  "Rossi",
 	}
 	userInstance := usr.ToGoodmDoc(usr)
+
+	userInstance.Document.UserData.Address = "Da"
 	userInstance.Save()
 
 	user.Remove()

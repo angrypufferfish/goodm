@@ -6,28 +6,35 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func Serialize[A interface{}](doc any) A {
+func Serialize[A interface{}](doc any) (A, error) {
+
 	var data A
+
 	bsonBytes, err := bson.Marshal(doc)
+
 	if err != nil {
-		fmt.Printf("BSON Marshal error - %s", err)
+		return data, fmt.Errorf("BSON Marshal error - %s", err)
 	}
 
 	err = bson.Unmarshal(bsonBytes, &data)
 	if err != nil {
-		fmt.Printf("BSON Unmarshal error - %s", err)
+		return data, fmt.Errorf("BSON Unmarshal error - %s", err)
 	}
 
-	return data
-
+	return data, nil
 }
 
-func SerializeList[A interface{}](docs []bson.M) []A {
+func SerializeList[A interface{}](docs []bson.M) ([]A, error) {
 	var data []A
 
 	for _, doc := range docs {
-		data = append(data, Serialize[A](doc))
+		serializedDoc, err := Serialize[A](doc)
+
+		if err != nil {
+			return data, err
+		}
+		data = append(data, serializedDoc)
 	}
 
-	return data
+	return data, nil
 }
