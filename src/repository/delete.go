@@ -66,3 +66,11 @@ func deleteMany[A interface{}](db *database.GoodmDatabase, filter any, opts ...*
 	}
 	return &count.DeletedCount, nil
 }
+
+func TestDeleteOnePrivate[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+	return deleteOne[A](db, filter, opts...)
+}
+
+func TestDeleteManyPrivate[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+	return deleteMany[A](db, filter, opts...)
+}

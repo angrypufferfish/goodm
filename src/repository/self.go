@@ -41,22 +41,27 @@ type Repo[A IDGetterSetter] struct {
 	CollectionName *string
 }
 
-func (r *Repo[A]) Save() (*A, error) {
+func (r *Repo[A]) Save() (A, error) {
+	var document A
+
 	res, err := r.Insert(r.Document)
 	if err != nil {
-		return nil, err
+		return document, err
 	}
 
 	objectID, err := objectIdConvert(res.InsertedID)
 	if err != nil {
-		return nil, err
+		return document, err
 	}
 
 	(r.Document).SetID(*objectID)
 
-	document, err := r.Get(*objectID)
+	foundDoc, err := r.Get(*objectID)
+
+	document = *foundDoc
+
 	if err != nil {
-		return nil, err
+		return document, err
 	}
 	return document, nil
 }

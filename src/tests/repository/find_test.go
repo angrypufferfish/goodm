@@ -29,8 +29,8 @@ func TestFindOne(t *testing.T) {
 				GoodmCollection: repository.GoodmCollection[*UserMock]{
 					Id: primitive.NewObjectID(),
 				},
-				Name:     "john",
-				Username: "john.doe@test.com",
+				Name:     "test*_*name",
+				Username: "UserNameTest",
 			},
 		)
 
@@ -56,8 +56,8 @@ func TestFindOne(t *testing.T) {
 				GoodmCollection: repository.GoodmCollection[*UserMock]{
 					Id: primitive.NewObjectID(),
 				},
-				Name:     "john",
-				Username: "john.doe@test.com",
+				Name:     "jo hn",
+				Username: "username with space",
 			},
 		)
 
@@ -72,6 +72,8 @@ func TestFindOne(t *testing.T) {
 		assert.Nil(t, err, "Error is NotNil")
 		assert.NotEmpty(t, (*res).Id)
 		assert.Equal(t, expectedUser.Document.Id, (*res).Id)
+		assert.Equal(t, expectedUser.Document.Name, (*res).Name)
+
 		assert.NotPanics(t, func() { repository.TestFindOnePrivate[UserMock, UserMock](db, expectedUser) })
 	})
 
@@ -80,8 +82,8 @@ func TestFindOne(t *testing.T) {
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
 		expectedUser := UserMock{
-			Name:     "john",
-			Username: "john.doe@test.com",
+			Name:     "errorname",
+			Username: "Errorusername",
 		}
 
 		mt.AddMockResponses(bson.D{{Key: "ok", Value: 0}})
