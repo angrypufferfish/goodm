@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Get[A interface{}](id primitive.ObjectID) (*A, error) {
+func Get[A any](id primitive.ObjectID) (*A, error) {
 	db := database.GetGoodmDatabase()
 	objectID, err := objectIdConvert(id)
 	if err != nil {
@@ -17,37 +17,37 @@ func Get[A interface{}](id primitive.ObjectID) (*A, error) {
 	return findOne[A, A](db, map[string]primitive.ObjectID{"_id": *objectID})
 }
 
-func FindOne[A interface{}](filter any, opts ...*options.FindOneOptions) (*A, error) {
+func FindOne[A any](filter any, opts ...*options.FindOneOptions) (*A, error) {
 	db := database.GetGoodmDatabase()
 	return findOne[A, A](db, filter, opts...)
 }
 
-func Find[A interface{}](filter any, opts ...*options.FindOptions) ([]A, error) {
+func Find[A any](filter any, opts ...*options.FindOptions) ([]A, error) {
 	db := database.GetGoodmDatabase()
 	return find[A, A](db, filter, opts...)
 }
 
-func FindOneWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*A, error) {
+func FindOneWithDatabase[A any](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*A, error) {
 
 	return findOne[A, A](db, filter, opts...)
 }
 
-func FindWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]A, error) {
+func FindWithDatabase[A any](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]A, error) {
 
 	return find[A, A](db, filter, opts...)
 }
 
-func FindWithSerializer[A interface{}, S interface{}](filter any, opts ...*options.FindOptions) ([]S, error) {
+func FindWithSerializer[A any, S any](filter any, opts ...*options.FindOptions) ([]S, error) {
 	db := database.GetGoodmDatabase()
 	return find[A, S](db, filter, opts...)
 }
 
-func FindOneWithSerializer[A interface{}, S interface{}](filter any, opts ...*options.FindOneOptions) (*S, error) {
+func FindOneWithSerializer[A any, S any](filter any, opts ...*options.FindOneOptions) (*S, error) {
 	db := database.GetGoodmDatabase()
 	return findOne[A, S](db, filter, opts...)
 }
 
-func find[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]S, error) {
+func find[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]S, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -70,7 +70,7 @@ func find[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, 
 	return seralizedList, nil
 }
 
-func findOne[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {
+func findOne[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -96,10 +96,10 @@ func findOne[A interface{}, S interface{}](db *database.GoodmDatabase, filter an
 	return &seralizedDocument, nil
 }
 
-func TestFindOnePrivate[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {
+func TestFindOnePrivate[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {
 	return findOne[A, S](db, filter, opts...)
 }
 
-func TestFindPrivate[A interface{}, S interface{}](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]S, error) {
+func TestFindPrivate[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]S, error) {
 	return find[A, S](db, filter, opts...)
 }

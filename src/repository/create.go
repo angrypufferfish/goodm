@@ -5,14 +5,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func Insert[A interface{}](model interface{}) (*mongo.InsertOneResult, error) {
+func Insert[A any](model any) (*mongo.InsertOneResult, error) {
 	db := database.GetGoodmDatabase()
 	return insertOne[A](db, model)
 }
 
-func InsertMany[A interface{}](models []A) (*mongo.InsertManyResult, error) {
+func InsertMany[A any](models []A) (*mongo.InsertManyResult, error) {
 
-	var interfaceSlice = make([]interface{}, len(models))
+	var interfaceSlice = make([]any, len(models))
 
 	for i := 0; i < len(interfaceSlice); i++ {
 		interfaceSlice[i] = models[0]
@@ -23,12 +23,12 @@ func InsertMany[A interface{}](models []A) (*mongo.InsertManyResult, error) {
 	return insertMany[A](db, interfaceSlice)
 }
 
-func InsertWithDatabase[A interface{}](db *database.GoodmDatabase, model interface{}) (*mongo.InsertOneResult, error) {
+func InsertWithDatabase[A any](db *database.GoodmDatabase, model any) (*mongo.InsertOneResult, error) {
 	return insertOne[A](db, model)
 }
 
-func InsertManyWithDatabase[A interface{}](db *database.GoodmDatabase, models []A) (*mongo.InsertManyResult, error) {
-	var interfaceSlice = make([]interface{}, len(models))
+func InsertManyWithDatabase[A any](db *database.GoodmDatabase, models []A) (*mongo.InsertManyResult, error) {
+	var interfaceSlice = make([]any, len(models))
 
 	for i := 0; i < len(interfaceSlice); i++ {
 		interfaceSlice[i] = models[0]
@@ -36,7 +36,7 @@ func InsertManyWithDatabase[A interface{}](db *database.GoodmDatabase, models []
 	return insertMany[A](db, interfaceSlice)
 }
 
-func insertOne[A interface{}](db *database.GoodmDatabase, model interface{}) (*mongo.InsertOneResult, error) {
+func insertOne[A any](db *database.GoodmDatabase, model any) (*mongo.InsertOneResult, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -53,7 +53,7 @@ func insertOne[A interface{}](db *database.GoodmDatabase, model interface{}) (*m
 	return res, nil
 }
 
-func insertMany[A interface{}](db *database.GoodmDatabase, models []interface{}) (*mongo.InsertManyResult, error) {
+func insertMany[A any](db *database.GoodmDatabase, models []any) (*mongo.InsertManyResult, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -70,10 +70,10 @@ func insertMany[A interface{}](db *database.GoodmDatabase, models []interface{})
 	return res, nil
 }
 
-func TestInsertOnePrivate[A interface{}](db *database.GoodmDatabase, model interface{}) (*mongo.InsertOneResult, error) {
+func TestInsertOnePrivate[A any](db *database.GoodmDatabase, model any) (*mongo.InsertOneResult, error) {
 	return insertOne[A](db, model)
 }
 
-func TestInsertManyPrivate[A interface{}](db *database.GoodmDatabase, models []interface{}) (*mongo.InsertManyResult, error) {
+func TestInsertManyPrivate[A any](db *database.GoodmDatabase, models []any) (*mongo.InsertManyResult, error) {
 	return insertMany[A](db, models)
 }

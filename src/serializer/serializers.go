@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func Serialize[A interface{}](doc any) (A, error) {
+func Serialize[A any](doc any) (A, error) {
 
 	var data A
 
@@ -24,7 +24,7 @@ func Serialize[A interface{}](doc any) (A, error) {
 	return data, nil
 }
 
-func SerializeList[A interface{}](docs []bson.M) ([]A, error) {
+func SerializeList[A any](docs []bson.M) ([]A, error) {
 	var data []A
 
 	for _, doc := range docs {

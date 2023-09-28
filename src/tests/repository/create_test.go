@@ -182,7 +182,7 @@ func TestInsertMany(t *testing.T) {
 
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
-		users := []interface{}{
+		users := []any{
 			*NewUserMock(),
 			*NewUserMock(),
 		}
@@ -200,7 +200,7 @@ func TestInsertMany(t *testing.T) {
 
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
-		users := []interface{}{
+		users := []any{
 			*NewUserMock(),
 			*NewUserMock(),
 			*NewUserMock(),

@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Delete[A interface{}](id primitive.ObjectID) (*int64, error) {
+func Delete[A any](id primitive.ObjectID) (*int64, error) {
 	db := database.GetGoodmDatabase()
 	objectID, err := objectIdConvert(id)
 
@@ -16,26 +16,44 @@ func Delete[A interface{}](id primitive.ObjectID) (*int64, error) {
 	return deleteOne[A](db, map[string]primitive.ObjectID{"_id": *objectID})
 }
 
-func DeleteOne[A interface{}](filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteOne[A any](filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	db := database.GetGoodmDatabase()
 	return deleteOne[A](db, filter, opts...)
 }
 
-func DeleteOneWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteOneWithDatabase[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 
 	return deleteOne[A](db, filter, opts...)
 }
 
-func DeleteMany[A interface{}](filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteMany[A any](filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	db := database.GetGoodmDatabase()
 	return deleteMany[A](db, filter, opts...)
 }
 
-func DeleteManyWithDatabase[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func DeleteManyWithDatabase[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	return deleteMany[A](db, filter, opts...)
 }
 
-func deleteOne[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func findOneAndDelete[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOneAndDeleteOptions) (*S, error) {
+
+	var result S
+	collection, err := database.GetCollection[A](db)
+
+	if err != nil {
+		return nil, err
+	}
+
+	singleResult := collection.FindOneAndDelete(*db.Context, filter, opts...)
+
+	result, err = serializeSingleResult[S](singleResult)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+func deleteOne[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -51,7 +69,7 @@ func deleteOne[A interface{}](db *database.GoodmDatabase, filter any, opts ...*o
 	return &count.DeletedCount, nil
 }
 
-func deleteMany[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func deleteMany[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 
 	collection, err := database.GetCollection[A](db)
 
@@ -67,10 +85,10 @@ func deleteMany[A interface{}](db *database.GoodmDatabase, filter any, opts ...*
 	return &count.DeletedCount, nil
 }
 
-func TestDeleteOnePrivate[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func TestDeleteOnePrivate[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	return deleteOne[A](db, filter, opts...)
 }
 
-func TestDeleteManyPrivate[A interface{}](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
+func TestDeleteManyPrivate[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {
 	return deleteMany[A](db, filter, opts...)
 }

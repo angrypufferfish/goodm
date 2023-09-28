@@ -16,9 +16,9 @@ type RepositoryServices[A any] interface {
 	FindOneWithDatabase(db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) ([]A, error)
 	FindWithDatabase(db *database.GoodmDatabase, filter any, opts ...*options.FindOptions) ([]A, error)
 
-	Insert(model interface{}) (*mongo.InsertOneResult, error)
+	Insert(model any) (*mongo.InsertOneResult, error)
 	InsertMany(models []A) (*mongo.InsertManyResult, error)
-	InsertWithDatabase(db *database.GoodmDatabase, model interface{}) (*mongo.InsertOneResult, error)
+	InsertWithDatabase(db *database.GoodmDatabase, model any) (*mongo.InsertOneResult, error)
 	InsertManyWithDatabase(db *database.GoodmDatabase, models []A) (*mongo.InsertManyResult, error)
 
 	Delete(id string) (*int64, error)
@@ -48,7 +48,7 @@ func (repo *Repository[A]) FindWithDatabase(db *database.GoodmDatabase, filter a
 	return FindWithDatabase[A](db, filter, opts...)
 }
 
-func (repo *Repository[A]) Insert(model interface{}) (*mongo.InsertOneResult, error) {
+func (repo *Repository[A]) Insert(model any) (*mongo.InsertOneResult, error) {
 	return Insert[A](model)
 }
 
@@ -56,7 +56,7 @@ func (repo *Repository[A]) InsertMany(models []A) (*mongo.InsertManyResult, erro
 	return InsertMany[A](models)
 }
 
-func (repo *Repository[A]) InsertWithDatabase(db *database.GoodmDatabase, model interface{}) (*mongo.InsertOneResult, error) {
+func (repo *Repository[A]) InsertWithDatabase(db *database.GoodmDatabase, model any) (*mongo.InsertOneResult, error) {
 	return InsertWithDatabase[A](db, model)
 }
 
