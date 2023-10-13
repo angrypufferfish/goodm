@@ -24,26 +24,22 @@ func TestFindOne(t *testing.T) {
 
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
-		expectedUser := repository.NewGoodmDoc[*UserMock](
-			&UserMock{
-				GoodmCollection: repository.GoodmCollection[*UserMock]{
-					Id: primitive.NewObjectID(),
-				},
-				Name:     "test*_*name",
-				Username: "UserNameTest",
-			},
-		)
+		expectedUser := &UserMock{
+			Id:       primitive.NewObjectID(),
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
 
 		mt.AddMockResponses(mtest.CreateCursorResponse(0, "mock_db.users", mtest.FirstBatch, bson.D{
-			{Key: "_id", Value: expectedUser.Document.Id},
-			{Key: "Name", Value: expectedUser.Document.Name},
-			{Key: "Username", Value: expectedUser.Document.Username},
+			{Key: "_id", Value: expectedUser.Id},
+			{Key: "Name", Value: expectedUser.Name},
+			{Key: "Username", Value: expectedUser.Username},
 		}))
 
 		res, err := repository.TestFindOnePrivate[UserMock, UserMock](db, expectedUser)
 
 		assert.Nil(t, err, "Error is NotNil")
-		assert.Equal(t, *expectedUser.Document, *res)
+		assert.Equal(t, *expectedUser, *res)
 		assert.NotPanics(t, func() { repository.TestFindOnePrivate[UserMock, UserMock](db, expectedUser) })
 	})
 
@@ -51,28 +47,24 @@ func TestFindOne(t *testing.T) {
 
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
-		expectedUser := repository.NewGoodmDoc[*UserMock](
-			&UserMock{
-				GoodmCollection: repository.GoodmCollection[*UserMock]{
-					Id: primitive.NewObjectID(),
-				},
-				Name:     "jo hn",
-				Username: "username with space",
-			},
-		)
+		expectedUser := &UserMock{
+			Id:       primitive.NewObjectID(),
+			Name:     "jo hn",
+			Username: "username with space",
+		}
 
 		mt.AddMockResponses(mtest.CreateCursorResponse(0, "mock_db.users", mtest.FirstBatch, bson.D{
-			{Key: "_id", Value: expectedUser.Document.Id},
-			{Key: "Name", Value: expectedUser.Document.Name},
-			{Key: "Username", Value: expectedUser.Document.Username},
+			{Key: "_id", Value: expectedUser.Id},
+			{Key: "Name", Value: expectedUser.Name},
+			{Key: "Username", Value: expectedUser.Username},
 		}))
 
 		res, err := repository.TestFindOnePrivate[UserMock, UserMockSerializer](db, expectedUser)
 
 		assert.Nil(t, err, "Error is NotNil")
 		assert.NotEmpty(t, (*res).Id)
-		assert.Equal(t, expectedUser.Document.Id, (*res).Id)
-		assert.Equal(t, expectedUser.Document.Name, (*res).Name)
+		assert.Equal(t, expectedUser.Id, (*res).Id)
+		assert.Equal(t, expectedUser.Name, (*res).Name)
 
 		assert.NotPanics(t, func() { repository.TestFindOnePrivate[UserMock, UserMock](db, expectedUser) })
 	})

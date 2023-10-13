@@ -24,15 +24,11 @@ func TestDeleteOne(t *testing.T) {
 
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
-		expectedUser := repository.NewGoodmDoc[*UserMock](
-			&UserMock{
-				GoodmCollection: repository.GoodmCollection[*UserMock]{
-					Id: primitive.NewObjectID(),
-				},
-				Name:     "test*_*name",
-				Username: "UserNameTest",
-			},
-		)
+		expectedUser := &UserMock{
+			Id:       primitive.NewObjectID(),
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
 
 		dataTest := [](map[int]bson.D){
 			{1: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 1}}},
@@ -48,7 +44,7 @@ func TestDeleteOne(t *testing.T) {
 				mt.AddMockResponses(b)
 
 				res, err := repository.TestDeleteOnePrivate[UserMock](db, map[string]primitive.ObjectID{
-					"_id": expectedUser.Document.Id,
+					"_id": expectedUser.Id,
 				})
 
 				if expected == 1 {
@@ -77,15 +73,10 @@ func TestDeleteMany(t *testing.T) {
 
 		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
-		expectedUser := repository.NewGoodmDoc[*UserMock](
-			&UserMock{
-				GoodmCollection: repository.GoodmCollection[*UserMock]{
-					Id: primitive.NewObjectID(),
-				},
-				Name:     "test*_*name",
-				Username: "UserNameTest",
-			},
-		)
+		expectedUser := &UserMock{
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
 
 		dataTest := [](map[int]bson.D){
 			{2: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 2}}},
@@ -100,7 +91,7 @@ func TestDeleteMany(t *testing.T) {
 				mt.AddMockResponses(b)
 
 				res, err := repository.TestDeleteManyPrivate[UserMock](db, map[string]string{
-					"Name": expectedUser.Document.Name,
+					"Name": expectedUser.Name,
 				})
 
 				assert.Nil(t, err)

@@ -1,0 +1,5 @@
+package op
+
+func Eq() {
+
+}

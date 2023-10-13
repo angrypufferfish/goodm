@@ -1,6 +1,9 @@
 package example
 
 import (
+	"fmt"
+
+	"github.com/angrypufferfish/goodm/src/controller"
 	"github.com/angrypufferfish/goodm/src/repository"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -10,37 +13,34 @@ type UserID struct {
 	LastName string             `json:"lastName" bson:"lastName"`
 }
 
+func Fi(name bool) {
+
+}
+
 func CreateUser() {
 
-	user := repository.NewGoodmDoc[*User](
-		&User{
-			FirstName: "Mario",
-			LastName:  "Rossi",
-		},
-	)
-	user.Document.FirstName = "Da"
-	user.Save()
-
-	/** OR **/
-
-	usr := &User{
+	user := &User{
 		FirstName: "Mario",
 		LastName:  "Rossi",
+		UserData: UserData{
+			Cap:     "dwdwd",
+			Address: "via ",
+		},
 	}
-	userInstance := usr.ToGoodmDoc(usr)
+	//TODO: GET field bson tag name and value with reflect and implement search in List controller
+	//example: ListAllBy(Fi(op.Or(op.Eq(user.FirstName == "name"),op.Neq(user.FirstName == "name"))))
 
-	userInstance.Document.UserData.Address = "Da"
-	userInstance.Save()
+	usr, _ := controller.Save[User](user)
+	fmt.Printf("%v", usr)
 
-	user.Remove()
-	userInstance.Remove()
+	ok, _ := controller.Remove[User](usr)
+	fmt.Printf("REMOVED %v", ok)
+
 }
 
 func ListAll() ([]User, error) {
 
-	var filter = map[string]string{}
-
-	r, err := repository.Find[User](filter)
+	r, err := controller.ListAll[User]()
 
 	if err != nil {
 		return nil, err

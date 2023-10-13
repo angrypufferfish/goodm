@@ -10,11 +10,20 @@ import (
 
 func Get[A any](id primitive.ObjectID) (*A, error) {
 	db := database.GetGoodmDatabase()
-	objectID, err := objectIdConvert(id)
+	objectID, err := ObjectIdConvert(id)
 	if err != nil {
 		return nil, err
 	}
 	return findOne[A, A](db, map[string]primitive.ObjectID{"_id": *objectID})
+}
+
+func GetWithSerializer[A any, S any](id primitive.ObjectID) (*S, error) {
+	db := database.GetGoodmDatabase()
+	objectID, err := ObjectIdConvert(id)
+	if err != nil {
+		return nil, err
+	}
+	return findOne[A, S](db, map[string]primitive.ObjectID{"_id": *objectID})
 }
 
 func FindOne[A any](filter any, opts ...*options.FindOneOptions) (*A, error) {

@@ -3,6 +3,6 @@ package exceptions
 import "errors"
 
 var (
-	ErrDbNotInitialized         = errors.New("cannot parse NaN as a *big.Int")
-	ErrCollectionNameNotDefined = errors.New("goodmCollection field have to be defined on Document definition")
+	ErrDbNotInitialized         = errors.New("Database not initialized")
+	ErrCollectionNameNotDefined = errors.New("goodm tag is mandatory on Document definition")
 )

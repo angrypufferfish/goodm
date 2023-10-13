@@ -8,7 +8,7 @@ import (
 
 func Delete[A any](id primitive.ObjectID) (*int64, error) {
 	db := database.GetGoodmDatabase()
-	objectID, err := objectIdConvert(id)
+	objectID, err := ObjectIdConvert(id)
 
 	if err != nil {
 		return nil, err

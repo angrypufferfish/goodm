@@ -1,17 +1,6 @@
 package repository_test
 
-import (
-	"context"
-	"testing"
-
-	"github.com/angrypufferfish/goodm/src/connection"
-	"github.com/angrypufferfish/goodm/src/repository"
-	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
-)
-
+/*
 func TestSelfSave(t *testing.T) {
 
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
@@ -58,3 +47,4 @@ func TestSelfSave(t *testing.T) {
 	})
 
 }
+*/

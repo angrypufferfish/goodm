@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func objectIdConvert(id any) (*primitive.ObjectID, error) {
+func ObjectIdConvert(id any) (*primitive.ObjectID, error) {
 	switch id.(type) {
 	case string:
 		objectID, err := primitive.ObjectIDFromHex(id.(string))

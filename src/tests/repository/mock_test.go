@@ -1,7 +1,7 @@
 package repository_test
 
 import (
-	"github.com/angrypufferfish/goodm/src/repository"
+	"github.com/angrypufferfish/goodm/src/database"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -11,13 +11,14 @@ type UserMockSerializer struct {
 }
 
 type UserMock struct {
-	repository.GoodmCollection[*UserMock] `json:"inline" bson:"inline" goodm:"users"`
+	database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
 
-	Name      string  `json:"Name" bson:"Name"`
-	Username  string  `json:"Username" bson:"Username"`
-	MailCount int     `json:"MailCount,omitempty" bson:"MailCount,omitempty"`
-	Latitude  float32 `json:"Latitude,omitempty" bson:"Latitude,omitempty"`
-	Longitude float32 `json:"Longitude,omitempty" bson:"Longitude,omitempty"`
+	Id        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
+	Name      string             `json:"Name" bson:"Name"`
+	Username  string             `json:"Username" bson:"Username"`
+	MailCount int                `json:"MailCount,omitempty" bson:"MailCount,omitempty"`
+	Latitude  float32            `json:"Latitude,omitempty" bson:"Latitude,omitempty"`
+	Longitude float32            `json:"Longitude,omitempty" bson:"Longitude,omitempty"`
 }
 
 func NewUserMock() *UserMock {
