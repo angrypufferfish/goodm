@@ -30,80 +30,80 @@ Golang ODM based on the official MongoDB driver.
 <!-- GETTING STARTED -->
 ## Installation
 
-  ```sh
-  go get github.com/angrypufferfish/goodm
-  ```
+```sh
+go get github.com/angrypufferfish/goodm
+```
 
 ## Connection
 
-   ```go
-    import (
-        "context"
-        "github.com/angrypufferfish/goodm/src/connection"
-    )
+```go
+import (
+  "context"
+  "github.com/angrypufferfish/goodm/src/connection"
+)
 
-    func Connect() {
+func Connect() {
 
-        var goodm connection.Goodm
-        ctx := context.Background()
+  var goodm connection.Goodm
+  ctx := context.Background()
 
-        client, err := goodm.Connect("mongodb://localhost:27017", 10000)
+  client, err := goodm.Connect("mongodb://localhost:27017", 10000)
 
-        ///!
-        defer goodm.Disconnect()
+  ///!
+  defer goodm.Disconnect()
 
-        if err != nil {
-            panic(err)
-        }
-        client.UseDatabase("test", &ctx)
-    }
+  if err != nil {
+    panic(err)
+  }
+  client.UseDatabase("test", &ctx)
+}
 
-   ```
+```
 
 ## Define Document
 
-  ```go
-  package example
+```go
+package example
 
-  import (
-    "github.com/angrypufferfish/goodm/src/database"
-  )
+import (
+  "github.com/angrypufferfish/goodm/src/database"
+)
 
-  type UserInfo struct {
-    Address string `json:"address" bson:"address"`
-  }
+type UserInfo struct {
+  Address string `json:"address" bson:"address"`
+}
 
-  type User struct {
-    //Define collection name on goodm tag
-    database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+type User struct {
+  //Define collection name on goodm tag
+  database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
 
-    LastName  string     `json:"lastName" bson:"lastName"`
-    FirstName string     `json:"firstName" bson:"firstName"`
-    Info  UserInfo       `json:"info" bson:"info"`
-  }
+  LastName  string     `json:"lastName" bson:"lastName"`
+  FirstName string     `json:"firstName" bson:"firstName"`
+  Info  UserInfo       `json:"info" bson:"info"`
+}
 
-  ```
+```
 
 ## Usage
 
-  ```go
-  package example
+```go
+package example
 
-  import (
-    "github.com/angrypufferfish/goodm/src/controller"
-  )
+import (
+  "github.com/angrypufferfish/goodm/src/controller"
+)
 
-  user := &User{
-		FirstName: "Mario",
-		LastName:  "Rossi",
-		Info: UserInfo{
-			Address: "via campo",
-		},
-	}
+user := &User{
+	FirstName: "Mario",
+	LastName:  "Rossi",
+	Info: UserInfo{
+		Address: "via campo",
+	},
+}
 
-	usr, err := controller.Save[User](user)
+usr, err := controller.Save[User](user)
 
-  ```
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing
