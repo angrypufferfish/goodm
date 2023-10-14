@@ -6,10 +6,18 @@ import (
 )
 
 func Save[D any](document database.IBaseDocument) (*D, error) {
+
+	///EVENT
+	document.OnCreate()
+
 	return save[D, D](document)
 }
 
 func SaveAndSerialize[D any, S any](document database.IBaseDocument) (*S, error) {
+
+	///EVENT
+	document.OnCreate()
+
 	return save[D, S](document)
 }
 
