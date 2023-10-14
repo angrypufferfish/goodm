@@ -11,6 +11,7 @@
     </li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#connection">Connection</a></li>
+    <li><a href="#define-document">Define Document</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -59,32 +60,49 @@ Golang ODM based on the official MongoDB driver.
 
    ```
 
-<!-- USAGE EXAMPLES -->
+## Define Document
+
+  ```go
+  package example
+
+  import (
+    "github.com/angrypufferfish/goodm/src/database"
+  )
+
+  type UserInfo struct {
+    Address string `json:"address" bson:"address"`
+  }
+
+  type User struct {
+    database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+
+    LastName  string     `json:"lastName" bson:"lastName"`
+    FirstName string     `json:"firstName" bson:"firstName"`
+    Info  UserInfo       `json:"info" bson:"info"`
+  }
+
+  ```
+
 ## Usage
 
-   ```go
-    import (
-        "context"
-        "github.com/angrypufferfish/goodm/src/connection"
-    )
+  ```go
+  package example
 
-    func Connect() {
+  import (
+    "github.com/angrypufferfish/goodm/src/controller"
+  )
 
-        var goodm connection.Goodm
-        ctx := context.Background()
+  user := &User{
+		FirstName: "Mario",
+		LastName:  "Rossi",
+		Info: UserInfo{
+			Address: "via campo",
+		},
+	}
 
-        client, err := goodm.Connect("mongodb://localhost:27017", 10000)
+	usr, err := controller.Save[User](user)
 
-        ///!
-        defer goodm.Disconnect()
-
-        if err != nil {
-            panic(err)
-        }
-        client.UseDatabase("test", &ctx)
-    }
-
-   ```
+  ```
 
 <!-- CONTRIBUTING -->
 ## Contributing
