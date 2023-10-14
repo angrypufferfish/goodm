@@ -18,8 +18,4 @@
 # vendor/
 
 # Go workspace file
-<<<<<<< HEAD
 go.work
-=======
-go.work
->>>>>>> master
