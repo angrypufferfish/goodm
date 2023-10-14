@@ -12,6 +12,10 @@
     <li><a href="#installation">Installation</a></li>
     <li><a href="#connection">Connection</a></li>
     <li><a href="#define-document">Define Document</a></li>
+    <li><a href="#save-a-document">Save a Document</a></li>
+    <li><a href="#save-and-serialize-output">Save and serialize output</a></li>
+    <li><a href="#list-documents">List documents</a></li>
+    <li><a href="#define-document">Define Document</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -84,6 +88,8 @@ type User struct {
 
 ## Usage
 
+### Save a document
+
 ```go
 package example
 
@@ -99,7 +105,51 @@ user := &User{
 	},
 }
 
-usr, err := controller.Save[User](user)
+savedUser, err := controller.Save[User](user)
+
+```
+
+### Save and serialize output
+
+```go
+package example
+
+import (
+  "github.com/angrypufferfish/goodm/src/controller"
+)
+
+type UserName struct {
+	FirstName string            `json:"firstName" bson:"firstName"`
+	LastName string             `json:"lastName" bson:"lastName"`
+}
+
+user := &User{
+	FirstName: "Mario",
+	LastName:  "Rossi",
+	Info: UserInfo{
+		Address: "via campo",
+	},
+}
+
+savedUser, err := controller.SaveAndSerialize[User, UserName](user)
+//output usr
+//{
+//  "firstName": "Mario",
+//  "lastName": "Rossi",
+//}
+```
+
+### List
+
+```go
+package example
+
+import (
+  "github.com/angrypufferfish/goodm/src/controller"
+)
+
+
+users, err := controller.List[User]()
 
 ```
 
