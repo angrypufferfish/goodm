@@ -4,6 +4,17 @@ import (
 	"github.com/angrypufferfish/goodm/src/repository"
 )
 
+func List[D any](filters any) ([]D, error) {
+
+	allDocuments, err := repository.Find[D](filters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return allDocuments, nil
+}
+
 func ListAll[D any]() ([]D, error) {
 
 	allDocuments, err := repository.Find[D](map[string]string{})

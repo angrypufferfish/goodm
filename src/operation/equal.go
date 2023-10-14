@@ -1,5 +1,0 @@
-package op
-
-func Eq() {
-
-}

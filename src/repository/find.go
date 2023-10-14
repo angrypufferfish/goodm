@@ -66,7 +66,7 @@ func find[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options
 
 	cursor, err := collection.Find(*db.Context, filter, opts...)
 
-	var results []bson.M
+	var results []bson.D
 	if err = cursor.All(*db.Context, &results); err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func findOne[A any, S any](db *database.GoodmDatabase, filter any, opts ...*opti
 
 	singleResult := collection.FindOne(*db.Context, filter, opts...)
 
-	var result bson.M
+	var result bson.D
 	err = singleResult.Decode(&result)
 
 	if err != nil {

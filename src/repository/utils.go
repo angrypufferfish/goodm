@@ -26,7 +26,7 @@ func ObjectIdConvert(id any) (*primitive.ObjectID, error) {
 }
 
 func serializeSingleResult[S any](singleResult *mongo.SingleResult) (S, error) {
-	var result bson.M
+	var result bson.D
 	var seralizedDocument S
 
 	err := singleResult.Decode(&result)

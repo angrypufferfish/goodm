@@ -24,7 +24,7 @@ func Serialize[A any](doc any) (A, error) {
 	return data, nil
 }
 
-func SerializeList[A any](docs []bson.M) ([]A, error) {
+func SerializeList[A any](docs []bson.D) ([]A, error) {
 	var data []A
 
 	for _, doc := range docs {
