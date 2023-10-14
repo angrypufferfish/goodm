@@ -13,6 +13,30 @@ func UpdateByID[A any](id primitive.ObjectID, update any, opts ...*options.Updat
 	return updateByID[A, A](db, id, update, opts...)
 }
 
+func UpdateOne[A any](filter any, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
+	db := database.GetGoodmDatabase()
+
+	return updateOne[A, A](db, filter, update, opts...)
+}
+
+func UpdateMany[A any](filter any, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
+	db := database.GetGoodmDatabase()
+
+	return updateMany[A, A](db, filter, update, opts...)
+}
+
+func FindOneAndUpdate[A any](filter any, update any, opts ...*options.FindOneAndUpdateOptions) (*A, error) {
+	db := database.GetGoodmDatabase()
+
+	return findOneAndUpdate[A, A](db, filter, update, opts...)
+}
+
+func FindOneAndUpdateWithSerializer[A any, S any](filter any, update any, opts ...*options.FindOneAndUpdateOptions) (*S, error) {
+	db := database.GetGoodmDatabase()
+
+	return findOneAndUpdate[A, S](db, filter, update, opts...)
+}
+
 func findOneAndUpdate[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.FindOneAndUpdateOptions) (*S, error) {
 
 	var document S
@@ -76,7 +100,7 @@ func updateOne[A any, S any](db *database.GoodmDatabase, filter any, update any,
 	return result, nil
 }
 
-func update[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
+func updateMany[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
 
 	collection, err := database.GetCollection[A](db)
 
