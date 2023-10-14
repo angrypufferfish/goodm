@@ -148,8 +148,16 @@ import (
   "github.com/angrypufferfish/goodm/src/controller"
 )
 
+type UserName struct {
+	FirstName string            `json:"firstName" bson:"firstName"`
+	LastName string             `json:"lastName" bson:"lastName"`
+}
 
-users, err := controller.List[User]()
+//Output users: []User
+users, err := controller.ListAll[User]()
+
+//Output serializedUsers: []UserName
+serializedUsers, err := controller.ListAllAndSerialize[User, UserName]()
 
 ```
 
