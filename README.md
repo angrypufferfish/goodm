@@ -172,12 +172,11 @@ import (
 )
 
 
-
+/// {"$and": [
+///    {"lastName": {"$ne": "Doe"}},
+///    {"firstName": {"$eq": "Mario"}}
+///  ]}
 users, err := controller.List[User](
-  /// {"$and": [
-  ///    {"lastName": {"$ne": "Doe"}},
-  ///    {"firstName": {"$eq": "Mario"}}
-  //  ]}
   op.And(
     ///{"lastName": {"$ne": "Doe"}}
 		op.Ne(
