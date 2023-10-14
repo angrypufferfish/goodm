@@ -15,6 +15,7 @@
     <li><a href="#save-a-document">Save a Document</a></li>
     <li><a href="#save-and-serialize-output">Save and serialize output</a></li>
     <li><a href="#list-documents">List documents</a></li>
+    <li><a href="#operators">Operators</a></li>
     <li><a href="#define-document">Define Document</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
@@ -158,6 +159,39 @@ users, err := controller.ListAll[User]()
 
 //Output serializedUsers: []UserName
 serializedUsers, err := controller.ListAllAndSerialize[User, UserName]()
+
+```
+
+### Operators
+
+```go
+package example
+
+import (
+  op "github.com/angrypufferfish/goodm/src/operator"
+)
+
+
+
+users, err := controller.List[User](
+  /// {"$and": [
+  ///    {"lastName": {"$ne": "Doe"}},
+  ///    {"firstName": {"$eq": "Mario"}}
+  //  ]}
+  op.And(
+    ///{"lastName": {"$ne": "Doe"}}
+		op.Ne(
+			"lastName",
+			"Doe",
+		),
+    ///{"firstName": {"$eq": "Mario"}}
+		op.Eq(
+			"firstName",
+			"Mario",
+		),
+	),
+)
+
 
 ```
 
