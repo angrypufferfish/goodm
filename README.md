@@ -74,6 +74,7 @@ Golang ODM based on the official MongoDB driver.
   }
 
   type User struct {
+    //Define collection name on goodm tag
     database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
 
     LastName  string     `json:"lastName" bson:"lastName"`
