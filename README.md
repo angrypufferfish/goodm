@@ -42,12 +42,12 @@ go get github.com/angrypufferfish/goodm
 ```go
 import (
   "context"
-  "github.com/angrypufferfish/goodm/src/connection"
+  "github.com/angrypufferfish/goodm"
 )
 
 func Connect() {
 
-  var goodm connection.Goodm
+  var goodm goodm.Goodm
   ctx := context.Background()
 
   client, err := goodm.Connect("mongodb://localhost:27017", 10000)
@@ -69,7 +69,7 @@ func Connect() {
 package example
 
 import (
-  "github.com/angrypufferfish/goodm/src/database"
+  "github.com/angrypufferfish/goodm/src/base"
 )
 
 type UserInfo struct {
@@ -78,7 +78,7 @@ type UserInfo struct {
 
 type User struct {
   //Define collection name on goodm tag
-  database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+  base.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
 
   LastName  string     `json:"lastName" bson:"lastName"`
   FirstName string     `json:"firstName" bson:"firstName"`
@@ -95,7 +95,7 @@ type User struct {
 package example
 
 import (
-  "github.com/angrypufferfish/goodm/src/controller"
+  "github.com/angrypufferfish/goodm"
 )
 
 user := &User{
@@ -106,7 +106,7 @@ user := &User{
 	},
 }
 
-savedUser, err := controller.Save[User](user)
+savedUser := goodm.Create[User](user)
 
 ```
 
@@ -116,7 +116,7 @@ savedUser, err := controller.Save[User](user)
 package example
 
 import (
-  "github.com/angrypufferfish/goodm/src/controller"
+  "github.com/angrypufferfish/goodm"
 )
 
 type UserName struct {
@@ -132,7 +132,7 @@ user := &User{
 	},
 }
 
-savedUser, err := controller.SaveAndSerialize[User, UserName](user)
+savedUser := goodm.CreateAndSerialize[User, UserName](user)
 //output usr
 //{
 //  "firstName": "Mario",
@@ -146,7 +146,7 @@ savedUser, err := controller.SaveAndSerialize[User, UserName](user)
 package example
 
 import (
-  "github.com/angrypufferfish/goodm/src/controller"
+  "github.com/angrypufferfish/goodm"
 )
 
 type UserName struct {
@@ -155,10 +155,10 @@ type UserName struct {
 }
 
 //Output users: []User
-users, err := controller.ListAll[User]()
+users := goodm.FindAll[User]()
 
 //Output serializedUsers: []UserName
-serializedUsers, err := controller.ListAllAndSerialize[User, UserName]()
+serializedUsers := goodm.FindAllAndSerialize[User, UserName]()
 
 ```
 
@@ -168,7 +168,8 @@ serializedUsers, err := controller.ListAllAndSerialize[User, UserName]()
 package example
 
 import (
-  op "github.com/angrypufferfish/goodm/src/operator"
+  "github.com/angrypufferfish/goodm"
+  "github.com/angrypufferfish/goodm/src/query"
 )
 
 
@@ -176,18 +177,12 @@ import (
 ///    {"lastName": {"$ne": "Doe"}},
 ///    {"firstName": {"$eq": "Mario"}}
 ///  ]}
-users, err := controller.List[User](
-  op.And(
+users := goodm.Find[User](
+  query.And(
     ///{"lastName": {"$ne": "Doe"}}
-		op.Ne(
-			"lastName",
-			"Doe",
-		),
+		query.Ne("lastName", "Doe"),
     ///{"firstName": {"$eq": "Mario"}}
-		op.Eq(
-			"firstName",
-			"Mario",
-		),
+		query.Eq("firstName", "Mario"),
 	),
 )
 
