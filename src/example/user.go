@@ -1,7 +1,7 @@
 package example
 
 import (
-	"github.com/angrypufferfish/goodm/src/database"
+	"github.com/angrypufferfish/goodm/src/base"
 )
 
 type UserData struct {
@@ -10,7 +10,7 @@ type UserData struct {
 }
 
 type User struct {
-	database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+	base.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
 
 	LastName  string     `json:"lastName" bson:"lastName"`
 	FirstName string     `json:"firstName" bson:"firstName"`

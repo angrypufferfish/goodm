@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func getCollectionName[A any]() (*string, error) {
+func GetCollectionName[A any]() (*string, error) {
 
 	var collection A
 
@@ -32,7 +32,7 @@ func getCollectionName[A any]() (*string, error) {
 
 func GetCollection[A any](db *GoodmDatabase) (*mongo.Collection, error) {
 
-	collectionName, err := getCollectionName[A]()
+	collectionName, err := GetCollectionName[A]()
 	if err != nil {
 		return nil, err
 	}

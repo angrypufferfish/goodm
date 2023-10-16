@@ -7,6 +7,7 @@ import (
 
 func Insert[A any](model any) (*mongo.InsertOneResult, error) {
 	db := database.GetGoodmDatabase()
+
 	return insertOne[A](db, model)
 }
 

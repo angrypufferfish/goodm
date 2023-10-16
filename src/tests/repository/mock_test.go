@@ -1,7 +1,7 @@
 package repository_test
 
 import (
-	"github.com/angrypufferfish/goodm/src/database"
+	"github.com/angrypufferfish/goodm/src/base"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -11,7 +11,7 @@ type UserMockSerializer struct {
 }
 
 type UserMock struct {
-	database.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+	base.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
 
 	Id        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
 	Name      string             `json:"Name" bson:"Name"`

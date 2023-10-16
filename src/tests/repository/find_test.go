@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/angrypufferfish/goodm/src/connection"
+	"github.com/angrypufferfish/goodm"
 	"github.com/angrypufferfish/goodm/src/repository"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
@@ -17,7 +17,7 @@ func TestFindOne(t *testing.T) {
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 	defer mt.Close()
 
-	var goodm connection.Goodm
+	var goodm goodm.Goodm
 	ctx := context.Background()
 
 	mt.Run("SUCCESS - TestFindOnePrivate", func(mt *mtest.T) {
