@@ -44,8 +44,8 @@ func Example() {
 
 	users := goodm.FindOne[User](
 		query.And(
-			query.Ne("firstName", "Tre"),
-			query.Eq("lastName", "d"),
+			query.Ne("firstName", "Te"),
+			query.Eq("lastName", "Treglia"),
 		),
 	)
 

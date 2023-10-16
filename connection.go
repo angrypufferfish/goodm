@@ -31,9 +31,15 @@ func (odm *Goodm) connectWithTimeoutContext(timeout time.Duration) context.Cance
 	return cancel
 }
 
-func (odm *Goodm) connectWithMongoUri(uri string) (*database.GoodmClient, error) {
+func (odm *Goodm) connectWithMongoUri(uri string, opts ...*options.ClientOptions) (*database.GoodmClient, error) {
 	fmt.Printf("Trying to connect to MongoDB uri: %s\n", uri)
-	client, err := mongo.Connect(*odm.ctx, options.Client().ApplyURI(uri))
+
+	var options []*options.ClientOptions = []*options.ClientOptions{
+		options.Client().ApplyURI(uri),
+	}
+	options = append(options, opts...)
+
+	client, err := mongo.Connect(*odm.ctx, options...)
 	odm.client = database.NewGoodmClient(client)
 
 	return odm.client, err
@@ -44,12 +50,12 @@ func (odm *Goodm) ConnectMock(mtestClient *mongo.Client) *database.GoodmClient {
 	return odm.client
 }
 
-func (odm *Goodm) Connect(uri string, timeout time.Duration) (*database.GoodmClient, error) {
+func (odm *Goodm) Connect(uri string, timeout time.Duration, opts ...*options.ClientOptions) (*database.GoodmClient, error) {
 
 	cancel := odm.connectWithTimeoutContext(timeout)
 	defer cancel()
 
-	_, err := odm.connectWithMongoUri(uri)
+	_, err := odm.connectWithMongoUri(uri, opts...)
 
 	if err != nil {
 		return nil, err
