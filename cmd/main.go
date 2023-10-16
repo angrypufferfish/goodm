@@ -1,6 +1,6 @@
 package main
 
-import "github.com/angrypufferfish/goodm/src/example"
+import "github.com/angrypufferfish/goodm/example"
 
 func main() {
 	example.Run()
