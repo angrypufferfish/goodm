@@ -102,7 +102,7 @@ func findOne[A any, S any](db *database.GoodmDatabase, filter any, opts ...*opti
 		return nil, err
 	}
 
-	return &seralizedDocument, nil
+	return seralizedDocument, nil
 }
 
 func TestFindOnePrivate[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOneOptions) (*S, error) {

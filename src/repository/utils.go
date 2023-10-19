@@ -14,31 +14,34 @@ func ObjectIdConvert(id any) (*primitive.ObjectID, error) {
 	case string:
 		objectID, err := primitive.ObjectIDFromHex(id.(string))
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
 		return &objectID, nil
 	case primitive.ObjectID:
 		objectID := id.(primitive.ObjectID)
 		return &objectID, nil
+	case *primitive.ObjectID:
+		objectID := id.(*primitive.ObjectID)
+		return objectID, nil
 	default:
 		return nil, fmt.Errorf("Id must be a string | primitive.ObjectID")
 	}
 }
 
-func serializeSingleResult[S any](singleResult *mongo.SingleResult) (S, error) {
+func serializeSingleResult[S any](singleResult *mongo.SingleResult) (*S, error) {
 	var result bson.D
-	var seralizedDocument S
+	var seralizedDocument *S
 
 	err := singleResult.Decode(&result)
 
 	if err != nil {
-		return seralizedDocument, err
+		return nil, err
 	}
 
 	seralizedDocument, err = serializer.Serialize[S](result)
 
 	if err != nil {
-		return seralizedDocument, err
+		return nil, err
 	}
 
 	return seralizedDocument, nil

@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
 )
 
-func TestFindOne(t *testing.T) {
+func TestFind(t *testing.T) {
 
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 	defer mt.Close()
@@ -85,6 +85,59 @@ func TestFindOne(t *testing.T) {
 		assert.NotNil(t, err, "Error is Nil")
 		assert.Nil(t, res)
 		assert.NotPanics(t, func() { repository.TestFindOnePrivate[UserMock, UserMock](db, expectedUser) })
+	})
+
+	mt.Run("EXPECTED ERROR - Get", func(mt *mtest.T) {
+
+		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+
+		expectedUser := UserMock{
+			Id:       primitive.NewObjectID(),
+			Name:     "name",
+			Username: "username",
+		}
+
+		mt.AddMockResponses(mtest.CreateCursorResponse(0, "mock_db.users", mtest.FirstBatch, bson.D{
+			{Key: "_id", Value: expectedUser.Id},
+			{Key: "Name", Value: expectedUser.Name},
+			{Key: "Username", Value: expectedUser.Username},
+		}))
+
+		res, err := repository.Get[UserMock](expectedUser.Id)
+
+		assert.NotNil(t, res, "Res is Nil")
+		assert.Nil(t, err)
+		assert.NotEmpty(t, (*res).Id)
+		assert.Equal(t, expectedUser.Id, (*res).Id)
+		assert.Equal(t, expectedUser.Name, (*res).Name)
+		assert.Equal(t, expectedUser.Username, (*res).Username)
+		assert.IsType(t, &UserMock{}, res)
+	})
+
+	mt.Run("EXPECTED ERROR - Get", func(mt *mtest.T) {
+
+		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+
+		expectedUser := UserMock{
+			Id:       primitive.NewObjectID(),
+			Name:     "name",
+			Username: "username",
+		}
+
+		mt.AddMockResponses(mtest.CreateCursorResponse(0, "mock_db.users", mtest.FirstBatch, bson.D{
+			{Key: "_id", Value: expectedUser.Id},
+			{Key: "Name", Value: expectedUser.Name},
+			{Key: "Username", Value: expectedUser.Username},
+		}))
+
+		res, err := repository.GetWithSerializer[UserMock, UserMockSerializer](expectedUser.Id)
+
+		assert.NotNil(t, res, "Res is Nil")
+		assert.Nil(t, err)
+		assert.NotEmpty(t, (*res).Id)
+		assert.Equal(t, expectedUser.Id, (*res).Id)
+		assert.Equal(t, expectedUser.Name, (*res).Name)
+		assert.IsType(t, &UserMockSerializer{}, res)
 	})
 
 }

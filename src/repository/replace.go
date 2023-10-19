@@ -8,7 +8,7 @@ import (
 
 func findOneAndReplace[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.FindOneAndReplaceOptions) (*S, error) {
 
-	var document S
+	var document *S
 	collection, err := database.GetCollection[A](db)
 
 	if err != nil {
@@ -25,7 +25,7 @@ func findOneAndReplace[A any, S any](db *database.GoodmDatabase, filter any, upd
 	if err != nil {
 		return nil, err
 	}
-	return &document, nil
+	return document, nil
 }
 
 func replaceOne[A any](db *database.GoodmDatabase, filter any, update any, opts ...*options.ReplaceOptions) (*mongo.UpdateResult, error) {

@@ -5,7 +5,6 @@ import (
 
 	"github.com/angrypufferfish/goodm"
 	"github.com/angrypufferfish/goodm/src/query"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -34,18 +33,15 @@ func Example() {
 
 	user = goodm.Create[User](user)
 
-	goodm.Update[User](
-		user,
-		query.Update(
-			query.Set(bson.E{"firstName", "Tre"}, bson.E{"lastName", "Treglia"}),
-			query.CurrentDate(bson.E{"updatedAt", true}),
-		),
-	)
+	user.FirstName = "firstname"
+	user.LastName = "lastname"
+
+	goodm.Update[User](user, query.Set(user))
 
 	users := goodm.FindOne[User](
 		query.And(
 			query.Ne("firstName", "Te"),
-			query.Eq("lastName", "Treglia"),
+			query.Eq("lastName", "lastname"),
 		),
 	)
 

@@ -30,7 +30,7 @@ func Rename(expressions ...bson.E) bson.D {
 	return operation.generatePrimaryOperator()
 }
 
-func Set(expressions ...bson.E) bson.D {
+func Set(expressions any) bson.D {
 	operation := NewPrimaryOperatorExpression(op_cmd.SET, expressions)
 	return operation.generatePrimaryOperator()
 }

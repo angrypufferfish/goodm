@@ -39,7 +39,7 @@ func FindOneAndUpdateWithSerializer[A any, S any](filter any, update any, opts .
 
 func findOneAndUpdate[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.FindOneAndUpdateOptions) (*S, error) {
 
-	var document S
+	var document *S
 	collection, err := database.GetCollection[A](db)
 
 	if err != nil {
@@ -58,7 +58,7 @@ func findOneAndUpdate[A any, S any](db *database.GoodmDatabase, filter any, upda
 		return nil, err
 	}
 
-	return &document, nil
+	return document, nil
 }
 
 func updateByID[A any, S any](db *database.GoodmDatabase, id primitive.ObjectID, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
@@ -115,4 +115,16 @@ func updateMany[A any, S any](db *database.GoodmDatabase, filter any, update any
 	}
 
 	return result, nil
+}
+
+func TestUpdateManyPrivate[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
+	return updateMany[A, S](db, filter, update, opts...)
+}
+
+func TestUpdateOnePrivate[A any, S any](db *database.GoodmDatabase, filter any, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
+	return updateOne[A, S](db, filter, update, opts...)
+}
+
+func TestUpdateByIDPrivate[A any, S any](db *database.GoodmDatabase, id primitive.ObjectID, update any, opts ...*options.UpdateOptions) (*mongo.UpdateResult, error) {
+	return updateByID[A, S](db, id, update, opts...)
 }

@@ -90,6 +90,39 @@ func TestDeleteMany(t *testing.T) {
 
 				mt.AddMockResponses(b)
 
+				res, err := repository.TestDeleteOnePrivate[UserMock](db, map[string]string{
+					"Name": expectedUser.Name,
+				})
+
+				assert.Nil(t, err)
+				assert.Equal(t, *res, int64(expected))
+
+			}
+		}
+
+	})
+
+	mt.Run("SUCCESS - TestDeleteManyPrivate", func(mt *mtest.T) {
+
+		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+
+		expectedUser := &UserMock{
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
+
+		dataTest := [](map[int]bson.D){
+			{2: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 2}}},
+			{142: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 142}}},
+			{0: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 0}}},
+			{1: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 1}}},
+		}
+
+		for _, bs := range dataTest {
+			for expected, b := range bs {
+
+				mt.AddMockResponses(b)
+
 				res, err := repository.TestDeleteManyPrivate[UserMock](db, map[string]string{
 					"Name": expectedUser.Name,
 				})
@@ -101,4 +134,102 @@ func TestDeleteMany(t *testing.T) {
 		}
 
 	})
+
+	mt.Run("SUCCESS - DeleteOne", func(mt *mtest.T) {
+
+		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+
+		expectedUser := &UserMock{
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
+
+		dataTest := [](map[int]bson.D){
+			{2: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 2}}},
+			{142: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 142}}},
+			{0: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 0}}},
+			{1: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 1}}},
+		}
+
+		for _, bs := range dataTest {
+			for expected, b := range bs {
+
+				mt.AddMockResponses(b)
+
+				res, err := repository.DeleteOne[UserMock](map[string]string{
+					"Name": expectedUser.Name,
+				})
+
+				assert.Nil(t, err)
+				assert.Equal(t, *res, int64(expected))
+
+			}
+		}
+
+	})
+
+	mt.Run("SUCCESS - Delete", func(mt *mtest.T) {
+
+		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+
+		expectedUser := &UserMock{
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
+
+		dataTest := [](map[int]bson.D){
+			{2: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 2}}},
+			{142: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 142}}},
+			{0: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 0}}},
+			{1: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 1}}},
+		}
+
+		for _, bs := range dataTest {
+			for expected, b := range bs {
+
+				mt.AddMockResponses(b)
+
+				res, err := repository.Delete[UserMock](expectedUser.Id)
+
+				assert.Nil(t, err)
+				assert.Equal(t, *res, int64(expected))
+
+			}
+		}
+
+	})
+
+	mt.Run("SUCCESS - DeleteMany", func(mt *mtest.T) {
+
+		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+
+		expectedUser := &UserMock{
+			Name:     "test*_*name",
+			Username: "UserNameTest",
+		}
+
+		dataTest := [](map[int]bson.D){
+			{2: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 2}}},
+			{142: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 142}}},
+			{0: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 0}}},
+			{1: bson.D{{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 1}}},
+		}
+
+		for _, bs := range dataTest {
+			for expected, b := range bs {
+
+				mt.AddMockResponses(b)
+
+				res, err := repository.DeleteMany[UserMock](map[string]string{
+					"Name": expectedUser.Name,
+				})
+
+				assert.Nil(t, err)
+				assert.Equal(t, *res, int64(expected))
+
+			}
+		}
+
+	})
+
 }

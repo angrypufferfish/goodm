@@ -37,7 +37,7 @@ func DeleteManyWithDatabase[A any](db *database.GoodmDatabase, filter any, opts 
 
 func findOneAndDelete[A any, S any](db *database.GoodmDatabase, filter any, opts ...*options.FindOneAndDeleteOptions) (*S, error) {
 
-	var result S
+	var result *S
 	collection, err := database.GetCollection[A](db)
 
 	if err != nil {
@@ -50,7 +50,7 @@ func findOneAndDelete[A any, S any](db *database.GoodmDatabase, filter any, opts
 	if err != nil {
 		return nil, err
 	}
-	return &result, nil
+	return result, nil
 }
 
 func deleteOne[A any](db *database.GoodmDatabase, filter any, opts ...*options.DeleteOptions) (*int64, error) {

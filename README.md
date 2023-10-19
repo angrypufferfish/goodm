@@ -3,12 +3,7 @@
 <!-- TABLE OF CONTENTS -->
 
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#connection">Connection</a></li>
     <li><a href="#define-document">Define Document</a></li>
@@ -47,13 +42,13 @@ import (
 
 func Connect() {
 
-  var goodm goodm.Goodm
+  var iGoodm goodm.Goodm
   ctx := context.Background()
 
-  client, err := goodm.Connect("mongodb://localhost:27017", 10000)
+  client, err := iGoodm.Connect("mongodb://localhost:27017", 10000)
 
   ///!
-  defer goodm.Disconnect()
+  defer iGoodm.Disconnect()
 
   if err != nil {
     panic(err)
