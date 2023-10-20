@@ -66,12 +66,12 @@ func TestDeleteMany(t *testing.T) {
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 	defer mt.Close()
 
-	var goodm goodm.Goodm
+	var iGoodm goodm.Goodm
 	ctx := context.Background()
 
 	mt.Run("SUCCESS - TestDeleteOnePrivate", func(mt *mtest.T) {
 
-		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+		db := iGoodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
 		expectedUser := &UserMock{
 			Name:     "test*_*name",
@@ -104,7 +104,7 @@ func TestDeleteMany(t *testing.T) {
 
 	mt.Run("SUCCESS - TestDeleteManyPrivate", func(mt *mtest.T) {
 
-		db := goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+		db := iGoodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
 		expectedUser := &UserMock{
 			Name:     "test*_*name",
@@ -137,7 +137,7 @@ func TestDeleteMany(t *testing.T) {
 
 	mt.Run("SUCCESS - DeleteOne", func(mt *mtest.T) {
 
-		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+		iGoodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
 		expectedUser := &UserMock{
 			Name:     "test*_*name",
@@ -170,7 +170,7 @@ func TestDeleteMany(t *testing.T) {
 
 	mt.Run("SUCCESS - Delete", func(mt *mtest.T) {
 
-		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+		iGoodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
 		expectedUser := &UserMock{
 			Name:     "test*_*name",
@@ -201,7 +201,7 @@ func TestDeleteMany(t *testing.T) {
 
 	mt.Run("SUCCESS - DeleteMany", func(mt *mtest.T) {
 
-		goodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
+		iGoodm.ConnectMock(mt.Client).UseDatabase("mock_db", &ctx)
 
 		expectedUser := &UserMock{
 			Name:     "test*_*name",

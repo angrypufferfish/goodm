@@ -10,7 +10,7 @@ type UserData struct {
 }
 
 type User struct {
-	base.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+	base.BaseDocument `json:",inline" bson:",inline" goodm:"users"`
 
 	LastName  string     `json:"lastName" bson:"lastName"`
 	FirstName string     `json:"firstName" bson:"firstName"`

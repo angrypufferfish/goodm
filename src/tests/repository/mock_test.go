@@ -11,7 +11,7 @@ type UserMockSerializer struct {
 }
 
 type UserMock struct {
-	base.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+	base.BaseDocument `json:",inline" bson:",inline" goodm:"users"`
 
 	Id        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
 	Name      string             `json:"Name" bson:"Name"`

@@ -3,6 +3,7 @@ package goodm
 import (
 	"github.com/angrypufferfish/goodm/src/base"
 	"github.com/angrypufferfish/goodm/src/controller"
+	"github.com/angrypufferfish/goodm/src/query"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -19,6 +20,10 @@ func CreateAndSerialize[D any, S any](document base.IBaseDocument) *S {
 }
 
 /** UPDATE FUNCTIONS **/
+func UpdateSelf[D any](document base.IBaseDocument, opts ...*options.UpdateOptions) (*D, error) {
+
+	return controller.Update[D](document, query.Set(document), opts...)
+}
 
 func Update[D any](document base.IBaseDocument, update any, opts ...*options.UpdateOptions) (*D, error) {
 

@@ -28,3 +28,7 @@ func (odmDatabase *GoodmDatabase) UseCollection(collection string) *mongo.Collec
 
 	return odmDatabase.current
 }
+
+func (odmDatabase *GoodmDatabase) GetCurrenCollection() *mongo.Collection {
+	return odmDatabase.current
+}

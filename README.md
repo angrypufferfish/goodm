@@ -11,7 +11,6 @@
     <li><a href="#save-and-serialize-output">Save and serialize output</a></li>
     <li><a href="#list-documents">List documents</a></li>
     <li><a href="#operators">Operators</a></li>
-    <li><a href="#define-document">Define Document</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -73,7 +72,7 @@ type UserInfo struct {
 
 type User struct {
   //Define collection name on goodm tag
-  base.BaseDocument `json:"inline" bson:"inline" goodm:"users"`
+  base.BaseDocument `json:",inline" bson:",inline" goodm:"users"`
 
   LastName  string     `json:"lastName" bson:"lastName"`
   FirstName string     `json:"firstName" bson:"firstName"`

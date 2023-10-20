@@ -40,7 +40,7 @@ func Ne(field string, value any) bson.D {
 	return operation.generatePrimaryField()
 }
 
-func Nin(field string, value any) bson.D {
+func Nin(field string, value bson.A) bson.D {
 	operation := NewPrimaryFieldExpression(op_cmd.NIN, field, value)
 	return operation.generatePrimaryField()
 }

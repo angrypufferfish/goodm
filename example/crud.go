@@ -36,7 +36,7 @@ func Example() {
 	user.FirstName = "firstname"
 	user.LastName = "lastname"
 
-	goodm.Update[User](user, query.Set(user))
+	goodm.UpdateSelf[User](user)
 
 	users := goodm.FindOne[User](
 		query.And(

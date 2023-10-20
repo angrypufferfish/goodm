@@ -10,6 +10,18 @@ type Expression struct {
 	value    *any
 }
 
+func (exp *Expression) GetOperator() *string {
+	return exp.operator
+}
+
+func (exp *Expression) GetField() *string {
+	return exp.field
+}
+
+func (exp *Expression) GetValue() *any {
+	return exp.value
+}
+
 func (exp *Expression) generatePrimaryField() bson.D {
 
 	return bson.D{{

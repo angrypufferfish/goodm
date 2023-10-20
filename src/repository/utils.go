@@ -46,3 +46,7 @@ func serializeSingleResult[S any](singleResult *mongo.SingleResult) (*S, error) 
 
 	return seralizedDocument, nil
 }
+
+func TestSerializeSingleResultPrivate[S any](singleResult *mongo.SingleResult) (*S, error) {
+	return serializeSingleResult[S](singleResult)
+}
