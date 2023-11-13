@@ -24,12 +24,15 @@ func (bd *BaseDocument) GetUpdatedAt() time.Time {
 }
 
 func (bd *BaseDocument) OnCreate() {
-
+	//Rimuovere evento
+	// o gestire per multiple create
 	bd.CreatedAt = time.Now().UTC()
 	bd.UpdatedAt = time.Now().UTC()
 
 }
 
 func (bd *BaseDocument) OnUpdate() {
+	//Rimuovere evento
+	// o gestire per multipli update
 	bd.UpdatedAt = time.Now().UTC()
 }
