@@ -16,15 +16,18 @@ func GetCollectionName[A any]() (*string, error) {
 	var ok bool = false
 
 	if reflect.ValueOf(collection).Kind() == reflect.Ptr {
+		//TODO: RIMUOVERE STRINGA HARDOCODED
 		field, ok = reflect.TypeOf(collection).Elem().FieldByName("BaseDocument")
 	} else {
 		var collectionPointer *A
+		//TODO: RIMUOVERE STRINGA HARDOCODED
 		field, ok = reflect.TypeOf(collectionPointer).Elem().FieldByName("BaseDocument")
 	}
 
 	if ok != true {
 		panic(exceptions.ErrCollectionNameNotDefined)
 	}
+	//TODO RIMUOVERE STRINGA HARDOCODED
 	collectionName := strings.Split(field.Tag.Get("goodm"), ",")[0]
 
 	return &collectionName, nil
